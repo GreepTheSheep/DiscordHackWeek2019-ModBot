@@ -40,6 +40,7 @@ client.on('message', message => {
         .addField("Reported by:", `${message.author}\n*ID: ${message.author.id}*`)
         .addField("In:", message.channel)
         .addField("Reason:", reason)
+        .setThumbnail(rUser.user.displayAvatarURL)
         .setTimestamp();
  
         message.delete();
@@ -63,8 +64,8 @@ client.on('message', message => {
         if(!message.member.hasPermission("BAN_MEMBERS")) return;
         let rUser = message.guild.member(message.mentions.users.first() || message.guild.members.get(args[0]));
         if(!rUser) return message.channel.send("This user does not exist !");
-        let reason = args.join(" ").slice(22);
-        if (!reason) let reason = "No reason"
+        var reason = args.join(" ").slice(22);
+        if (!reason) var reason = "No reason"
     
         let banembed = new Discord.RichEmbed()
         .setColor("#06B201")
@@ -73,6 +74,7 @@ client.on('message', message => {
         .addField("Banned by:", `${message.author}\n*ID: ${message.author.id}*`)
         .addField("In:", message.channel)
         .addField("Reason:", reason)
+        .setThumbnail(rUser.user.displayAvatarURL)
         .setTimestamp();
     
         client.guilds.get(message.guild.id).channels.get(message.guild.channels.find("name", logschannel).id).send(banembed);
@@ -84,8 +86,8 @@ client.on('message', message => {
         if(!message.member.hasPermission("KICK_MEMBERS")) return;
         let rUser = message.guild.member(message.mentions.users.first() || message.guild.members.get(args[0]));
         if(!rUser) return message.channel.send("This user does not exist !");
-        let reason = args.join(" ").slice(22);
-        if (!reason) let reason = "No reason"
+        var reason = args.join(" ").slice(22);
+        if (!reason) var reason = "No reason"
     
         let kickembed = new Discord.RichEmbed()
         .setColor("#06B201")
@@ -94,9 +96,12 @@ client.on('message', message => {
         .addField("Kicked by:", `${message.author}\n*ID: ${message.author.id}*`)
         .addField("In:", message.channel)
         .addField("Reason:", reason)
+        .setThumbnail(rUser.user.displayAvatarURL)
         .setTimestamp();
         
         rUser.kick(reason)
+
+        message.reply(`Succefully kicked!`)
     
         client.guilds.get(message.guild.id).channels.get(message.guild.channels.find("name", logschannel).id).send(kickembed);
     

@@ -1,6 +1,7 @@
 const Discord = require('discord.js');
 const client = new Discord.Client();
 const config = require('./config.json');
+const config_token = require('./token.json');
 const logschannel = config.logs_channel_name
 
 
@@ -17,7 +18,7 @@ client.on('message', message => {
 
             message.delete();
             message.guild.createChannel(logschannel).then(c => c.overwritePermissions(message.guild.roles.find("name", "@everyone"), {READ_MESSAGES: false}).then(client.guilds.get(message.guild.id).channels.get(message.guild.channels.find("name", logschannel).id).send('Logging channel created!')))
-            
+
         }
 
     if (message.content.startsWith(prefix+'report')){
@@ -50,4 +51,4 @@ client.on('message', message => {
     }
 })
 
-client.login(config.token)
+client.login(config_token.token)

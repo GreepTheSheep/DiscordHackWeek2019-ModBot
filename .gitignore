@@ -61,7 +61,7 @@ typings/
 .next
 
 # config file (token)
-config.json
+token.json
 
 # package-lock.json
 package-lock.json

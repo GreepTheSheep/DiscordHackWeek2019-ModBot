@@ -15,10 +15,13 @@ client.on('message', message => {
     let args = messageArray.slice(1);
 
     if (message.content.startsWith(prefix+'log')){
-
-            message.delete();
-            message.guild.createChannel(logschannel).then(c => c.overwritePermissions(message.guild.roles.find("name", "@everyone"), {READ_MESSAGES: false}).then(client.guilds.get(message.guild.id).channels.get(message.guild.channels.find("name", logschannel).id).send('Logging channel created!')))
-
+        if(!message.member.hasPermission("ADMINISTRATOR")) return;
+        message.delete();
+        if (message.guild.channels.find("name", logschannel)) return client.guilds.get(message.guild.id).channels.get(message.guild.channels.find("name", logschannel).id).send(`<@${message.author.id}>, Channel already created! ¯\\_(ツ)_/¯`);
+        message.guild.createChannel(logschannel)
+        .then(c => c.overwritePermissions(message.guild.roles.find("name", "@everyone"), {READ_MESSAGES: false})
+        .then(client.guilds.get(message.guild.id).channels.get(message.guild.channels.find("name", logschannel).id).send('Logging channel created!\n\n**WARNING: Please don\'t change the name of the channel!**')))
+        .catch(e => message.author.send(`Error while creating a logging channel:\n\`\`\`${e}\`\`\``))
         }
 
     if (message.content.startsWith(prefix+'report')){

@@ -23,8 +23,9 @@ client.on('message', message => {
         if (message.guild.channels.find("name", logschannel)) return client.guilds.get(message.guild.id).channels.get(message.guild.channels.find("name", logschannel).id).send(`<@${message.author.id}>, Channel already created! ¯\\_(ツ)_/¯`);
         message.guild.createChannel(logschannel)
         .then(c => c.overwritePermissions(message.guild.roles.find("name", "@everyone"), {READ_MESSAGES: false})
-        .then(client.guilds.get(message.guild.id).channels.get(message.guild.channels.find("name", logschannel).id).send('Logging channel created!\n\n**WARNING: Please don\'t change the name of the channel!\nif you want to change it, please also change it in \`config.json\` and restart your bot!**')))
-        .catch(e => message.author.send(`Error while creating a logging channel:\n\`\`\`${e}\`\`\``).then(console.log(e)))
+        .then(client.guilds.get(message.guild.id).channels.get(message.guild.channels.find("name", logschannel).id).send('Logging channel created!\n\n:warning: **WARNING: Please don\'t change the name of the channel!\n:arrow_right: if you want to change it, please also change it in \`config.json\` and restart your bot!**')
+        .then(msg => msg.pin())))
+        .catch(e => message.channel.send(`Error while creating a logging channel:\n\`\`\`${e}\`\`\``).then(errormsg => errormsg.delete(5000)).then(console.log(e)))
         }
 
     if (message.content.startsWith(prefix+'report')){
@@ -95,7 +96,7 @@ client.on('message', message => {
         .setColor("#06B201")
         .setTitle("Unban:")
         .addField("User unban:", `<@${rUser}>\n*ID: ${rUser}*`)
-        .addField("Banned by:", `${message.author}\n*ID: ${message.author.id}*`)
+        .addField("Unbanned by:", `${message.author}\n*ID: ${message.author.id}*`)
         .addField("In:", message.channel)
         .addField("Reason:", reason)
         .setTimestamp();
@@ -180,16 +181,30 @@ client.on('message', message => {
     }
 
     if (message.content.startsWith(prefix+'help')){
+        if(!message.member.hasPermission("ADMINISTRATOR")){
+            let embed2 = new Discord.RichEmbed()
+            embed2.setTitle('List of commands:')
+            .setColor("RANDOM")
+            .setAuthor(client.user.tag, client.user.displayAvatarURL)
+            .addField(`${prefix}userinfo`, `Some good information about this or that`, true)
+            .addField(`${prefix}serverinfo`, `Wumpus like to know more of this server!`, true)
+            return message.channel.send(embed2);
+        };
         let embed = new Discord.RichEmbed()
         embed.setTitle('List of commands:')
         .setColor("RANDOM")
         .setAuthor(client.user.tag, client.user.displayAvatarURL)
         .addField(`${prefix}logs`, `Set up a logging channel to your server`, true)
-        .addField(`${prefix}ban`, `Ban the user, like Thanos snap!`, true)
-        .addField(`${prefix}kick`, `Kick the user, like Thanos snap too!`, true)
+        .addField(`${prefix}ban`, `Ban the user, because Wumpus don't like there users!`, true)
+        .addField(`${prefix}kick`, `Kick the user, less violent as ban!`, true)
+        .addField(`${prefix}unban`, `Unban user. Put the user ID in your argument`, true)
+        .addField(`${prefix}clear`, `Clear last messages, like Thanos snap!`, true)
+        .addField(`${prefix}userinfo`, `Some good information about this or that`, true)
+        .addField(`${prefix}serverinfo`, `Wumpus like to know more of this server!`, true)
 
         message.author.send(embed);
-        message.reply("a DM has been sent at you.\nDidn't you get it? Check that you have authorized the DMs")
+        message.reply("a DM has been sent at you.\nDidn't you get it? Check that you have authorized the DMs").then(msg => msg.delete(10000))
+        message.delete(10000);
     }
 })
 

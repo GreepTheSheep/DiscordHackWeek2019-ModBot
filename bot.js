@@ -11,6 +11,9 @@ client.on('ready', () => {
 
 const prefix = config.prefix
 client.on('message', message => {
+    if (message.author.bot) return;
+    if (message.channel.type === 'dm') return;
+    
     let messageArray = message.content.split(" ");
     let args = messageArray.slice(1);
 
@@ -39,7 +42,7 @@ client.on('message', message => {
         .setTimestamp();
  
         message.delete();
-        message.reply("Your report has been sent, thanks! :+1:").then(msg => msg.delete(1000));
+        message.reply("Your report has been sent, thanks! :+1:").then(msg => msg.delete(2000));
     
         client.guilds.get(message.guild.id).channels.get(message.guild.channels.find("name", logschannel).id).send(reportembed)
     }

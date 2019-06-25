@@ -21,7 +21,7 @@ Clone the repo, create a file called token.json and type the following:
 ```json
 {"token": "YOUR_BOT_TOKEN"}
 ```
-PS: The bot token can be accessible at https://discordapp.com/developpers
+PS: The bot token can be accessible at https://discordapp.com/developers
 
 Once you created the file, open a command line (Terminal) and type: 
 ```

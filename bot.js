@@ -21,7 +21,7 @@ client.on('message', message => {
         message.guild.createChannel(logschannel)
         .then(c => c.overwritePermissions(message.guild.roles.find("name", "@everyone"), {READ_MESSAGES: false})
         .then(client.guilds.get(message.guild.id).channels.get(message.guild.channels.find("name", logschannel).id).send('Logging channel created!\n\n**WARNING: Please don\'t change the name of the channel!**')))
-        .catch(e => message.author.send(`Error while creating a logging channel:\n\`\`\`${e}\`\`\``))
+        .catch(e => message.author.send(`Error while creating a logging channel:\n\`\`\`${e}\`\`\``).then(console.log(e)))
         }
 
     if (message.content.startsWith(prefix+'report')){
@@ -38,7 +38,7 @@ client.on('message', message => {
         .addField("Reason:", reason)
         .setTimestamp();
  
-        message.author.send("Your report was sent, thanks! :+1:");
+        message.reply("Your report has been sent, thanks! :+1:");
     
         client.guilds.get(message.guild.id).channels.get(message.guild.channels.find("name", logschannel).id).send(reportembed)
     }
@@ -46,8 +46,9 @@ client.on('message', message => {
     if(message.content.startsWith(prefix+'clear')) {
         if(!message.member.hasPermission("MANAGE_MESSAGES")) return;
         message.delete();
-        if(!args[0]) return message.channel.send("How many messages you want to clear ?").then(msg => msg.delete(3000));
+        if(!args[0]) return message.channel.send(`How many messages you want to clear ?\nExample: \`${prefix}clear 50\``).then(msg => msg.delete(3000));
         if (args[0] > 100) return message.channel.send(":negative_squared_cross_mark: You can not clear more than 100 messages!").then(msg => msg.delete(3000));
+        if (args[0] < 0) return message.channel.send(":negative_squared_cross_mark: You can not clear less than 1 messages!").then(msg => msg.delete(3000));
         message.channel.bulkDelete(args[0]).then(() => {
             message.channel.send(`:+1: **You have cleared ${args[0]} messages.**`).then(msg => msg.delete(3000));
         });

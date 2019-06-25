@@ -18,11 +18,17 @@ Clone the repo, execute the start.bat and follow the instructions.
 
 ### For Linux/Mac/Unix users:
 Clone the repo, create a file called token.json and type the following:
-    ```{"token": "YOUR_BOT_TOKEN"}```
+    ```
+    {"token": "YOUR_BOT_TOKEN"}
+    ```
 PS: The bot token can be accessible at https://discordapp.com/developpers
 
 Once you created the file, open a command line (Terminal) and type:
-    ```npm install```
+    ```
+    npm install
+    ```
 
 Once it's done, type:
-    ```npm start```
+    ```
+    npm start
+    ```

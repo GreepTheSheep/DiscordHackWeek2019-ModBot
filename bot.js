@@ -69,7 +69,7 @@ client.on('message', message => {
     
         let banembed = new Discord.RichEmbed()
         .setColor("#06B201")
-        .setTitle("Ban :")
+        .setAuthor("Ban:", rUser.user.displayAvatarURL)
         .addField("User ban:", `${rUser}\n*ID: ${rUser.id}*`)
         .addField("Banned by:", `${message.author}\n*ID: ${message.author.id}*`)
         .addField("In:", message.channel)
@@ -80,6 +80,32 @@ client.on('message', message => {
         client.guilds.get(message.guild.id).channels.get(message.guild.channels.find("name", logschannel).id).send(banembed);
     
         rUser.ban(reason)
+
+        message.channel.send(`:+1: Successfully banned ${rUser.user.tag} !`).then(msg => msg.delete(5000))
+    }
+
+    if (message.content.startsWith(prefix+'unban')){
+        if(!message.member.hasPermission("BAN_MEMBERS")) return;
+        let rUser = args[0]
+        if(!rUser) return message.channel.send("This user does not exist !");
+        var reason = args.join(" ").slice(19);
+        if (!reason) var reason = "No reason"
+
+        let banembed = new Discord.RichEmbed()
+        .setColor("#06B201")
+        .setTitle("Unban:")
+        .addField("User unban:", `<@${rUser}>\n*ID: ${rUser}*`)
+        .addField("Banned by:", `${message.author}\n*ID: ${message.author.id}*`)
+        .addField("In:", message.channel)
+        .addField("Reason:", reason)
+        .setTimestamp();
+    
+        client.guilds.get(message.guild.id).channels.get(message.guild.channels.find("name", logschannel).id).send(banembed);
+
+    
+        message.guild.unban(rUser, reason)
+
+        message.channel.send(`:+1: Successfully unbanned <@${rUser}> !`).then(msg => msg.delete(5000))
     }
 
     if (message.content.startsWith(prefix+'kick')){
@@ -91,7 +117,7 @@ client.on('message', message => {
     
         let kickembed = new Discord.RichEmbed()
         .setColor("#06B201")
-        .setTitle("Kick :")
+        .setAuthor("Kick:", rUser.user.displayAvatarURL)
         .addField("User kicked:", `${rUser}\n*ID: ${rUser.id}*`)
         .addField("Kicked by:", `${message.author}\n*ID: ${message.author.id}*`)
         .addField("In:", message.channel)
@@ -101,10 +127,69 @@ client.on('message', message => {
         
         rUser.kick(reason)
 
-        message.reply(`Succefully kicked!`)
+        message.channel.send(`:+1: Successfully kicked ${rUser.user.tag} !`).then(msg => msg.delete(5000))
     
         client.guilds.get(message.guild.id).channels.get(message.guild.channels.find("name", logschannel).id).send(kickembed);
     
+    }
+
+    if (message.content.startsWith(prefix+'serverinfo')){
+        let total = message.guild.members.array().length;;
+        let bots = message.guild.members.filter(m => m.user.bot).size;
+        let members = total - bots;
+        let serverembed = new Discord.RichEmbed()
+        serverembed.setTitle('Server information:')
+        .setColor("RANDOM")
+        .setAuthor(message.guild.name, message.guild.iconURL)
+        .addField("Created on:", message.guild.createdAt, true)
+        .addField("Owner:", message.guild.owner.user.tag, true)
+        .addField("ID:", message.guild.id, true)
+        .addField("Members:", members, true)
+        .addField("Bots:", bots, true)
+        .addField("Channels:", message.guild.channels.size, true)
+        .addField("Region:", message.guild.region, true)
+        .setImage(message.guild.iconURL)
+
+        message.channel.send(serverembed);
+    }
+
+    if (message.content.startsWith(prefix+'userinfo')){
+        let rUser = message.guild.member(message.mentions.users.first() || message.guild.members.get(args[0]));
+        
+        let embed = new Discord.RichEmbed;
+        embed.setTitle('User information:')
+        .setColor("RANDOM")
+        .setAuthor(message.author.username, message.author.displayAvatarURL)
+        .setImage(message.author.displayAvatarURL)
+        .addField("Name on the server:", message.member.displayName, true)
+        .addField("ID:", message.author.id, true)
+        .addField("Account created on:", message.author.createdAt)
+        .addField("Joined the server on:", message.member.joinedAt)
+        if(!rUser) return message.channel.send(embed)
+
+        let embed2 = new Discord.RichEmbed;
+        embed2.setTitle('User information:')
+        .setColor("RANDOM")
+        .setAuthor(rUser.user.username, rUser.user.displayAvatarURL)
+        .setImage(rUser.user.displayAvatarURL)
+        .addField("Name on the server:", rUser.displayName, true)
+        .addField("ID:", rUser.user.id, true)
+        .addField("Account created on:", rUser.user.createdAt)
+        .addField("Joined the server on:", rUser.joinedAt)
+        if(rUser) return message.channel.send(embed2)
+    }
+
+    if (message.content.startsWith(prefix+'help')){
+        let embed = new Discord.RichEmbed()
+        embed.setTitle('List of commands:')
+        .setColor("RANDOM")
+        .setAuthor(client.user.tag, client.user.displayAvatarURL)
+        .addField(`${prefix}logs`, `Set up a logging channel to your server`, true)
+        .addField(`${prefix}ban`, `Ban the user, like Thanos snap!`, true)
+        .addField(`${prefix}kick`, `Kick the user, like Thanos snap too!`, true)
+
+        message.author.send(embed);
+        message.reply("a DM has been sent at you.\nDidn't you get it? Check that you have authorized the DMs")
     }
 })
 

@@ -34,4 +34,4 @@ npm start!
 ```
 
 ---
-Enjoy !
+Once started, type `!help` for a list of commands. Enjoy !

@@ -1,0 +1,21 @@
+{
+    "name": "hack-week",
+    "version": "1.0.0",
+    "description": "Bot for the Discord Hack Week",
+    "main": "bot.js",
+    "scripts": {
+        "start": "node bot.js"
+    },
+    "keywords": [
+        "discord",
+        "bot"
+    ],
+    "author": "Greep",
+    "dependencies": {
+        "bufferutil": "^3.0.3",
+        "country-data": "0.0.31",
+        "dateformat": "^3.0.3",
+        "discord.js": "^11.5.0",
+        "fs": "0.0.1-security"
+    }
+}

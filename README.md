@@ -30,7 +30,7 @@ npm install
 
 Once it's done, type:
 ```
-npm start!
+npm start
 ```
 
 ---

@@ -14,7 +14,7 @@ You can have also a logging channel, more powerful for the mods and admins.
 Before we starting, you need [Node.js](https://nodejs.org), I advise you pick the version [8.16.0](https://nodejs.org/dist/v8.16.0/)
 
 ### For Windows users:
-Clone the repo, execute the start.bat and follow the instructions.
+Clone the repo, execute the `start.bat` and follow the instructions.
 
 ### For Linux/Mac/Unix users:
 Clone the repo, create a file called token.json and type the following:
@@ -23,7 +23,12 @@ Clone the repo, create a file called token.json and type the following:
 ```
 PS: The bot token can be accessible at https://discordapp.com/developpers
 
-Once you created the file, open a command line (Terminal) and type:     npm install
+Once you created the file, open a command line (Terminal) and type: 
+```
+npm install
+```
 
 Once it's done, type:
-    npm start!
+```
+npm start!
+```

@@ -11,7 +11,7 @@ You can have also a logging channel, more powerful for the mods and admins.
 ---
 
 ## Installation:
-Before we starting, you need [Node.js](https://nodejs.org), I advise you pick the version [8.16.0](https://nodejs.org/dist/v8.16.0/)
+Before we starting, you need [Node.js](https://nodejs.org), I advise you pick the version [10.16.3](https://nodejs.org/dist/v10.16.3/)
 
 ### Simple installation: (for Windows users):
 Clone the repo, execute the `start.bat` and follow the instructions.
